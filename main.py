@@ -1,8 +1,4 @@
-foods = []
-workouts = []
-bodyweights = []
-
-while True:
+def show_menu():
     print("=== Fitness Tracker ===")
     print("1. Log food")
     print("2. View today's nutrition")
@@ -12,91 +8,114 @@ while True:
     print("6. View progress")
     print("7. Exit")
 
+def log_food(foods):
+    food = input("Food name: ")
+    calories = float(input("Calories: "))
+    protein = float(input("Protein (g): "))
+    carbs = float(input("Carbs (g): "))
+    fat = float(input("Fat (g): "))
+
+    food_entry = {
+        "name": food,
+        "calories": calories,
+        "protein": protein,
+        "carbs": carbs,
+        "fat": fat
+    }
+
+    foods.append(food_entry)
+
+    print("Food logged: ")
+    print(food_entry)
+    print(f"food: {food}, calories: {calories}, protein: {protein}g, carbs: {carbs}g, fat: {fat}g")
+
+def view_nutrition(foods):
+    total_calories = 0
+    total_protein = 0
+    total_carbs = 0
+    total_fat = 0
+
+    for food in foods:
+        total_calories += food["calories"]
+        total_protein += food["protein"]
+        total_carbs += food["carbs"]
+        total_fat += food["fat"]
+
+    print(f"Calories: {total_calories}")
+    print(f"Protein: {total_protein}g")
+    print(f"Carbs: {total_carbs}g")
+    print(f"Fat: {total_fat}g")
+
+def log_workout(workouts):
+    print("Log workout selected")
+    exercise = input("Exercise name: ")
+    sets = int(input("Sets: "))
+    reps = int(input("Reps: "))
+    weight = float(input("Weight (kg): "))
+
+    workout_entry = {
+        "exercise": exercise,
+        "sets": sets,
+        "reps": reps,
+        "weight": weight
+    }
+
+    workouts.append(workout_entry)
+
+    print("Workout logged:")
+    print(f"{exercise}: {sets} sets x {reps} reps at {weight}kg")
+
+def view_workouts(workouts):
+    if len(workouts) == 0:
+        print("No workouts logged.")
+    else:
+        for workout in workouts:
+            print(
+                f"{workout['exercise']}: "
+                f"{workout['sets']} sets x "
+                f"{workout['reps']} reps at "
+                f"{workout['weight']}kg"
+            )
+
+def log_bodyweight(bodyweights):
+    weight = float(input("Bodyweight (kg): "))
+    bodyweights.append(weight)
+
+    print(f"Bodyweight logged: {weight}kg")
+
+def view_progress(bodyweights):
+    if len(bodyweights) == 0:
+        print("No bodyweight entries logged.")
+    else:
+        starting_weight = bodyweights[0]
+        current_weight = bodyweights[-1]
+        change = current_weight - starting_weight
+
+        print(f"Starting weight: {starting_weight}kg")
+        print(f"Current weight: {current_weight}kg")
+        print(f"Change: {change}kg")        
+
+foods = []
+workouts = []
+bodyweights = []
+
+while True:
+    show_menu()
     choice = input("Select an option: ")
 
     if choice == "1":
-        food = input("Food name: ")
-        calories = float(input("Calories: "))
-        protein = float(input("Protein (g): "))
-        carbs = float(input("Carbs (g): "))
-        fat = float(input("Fat (g): "))
-
-        food_entry = {
-            "name": food,
-            "calories": calories,
-            "protein": protein,
-            "carbs": carbs,
-            "fat": fat
-        }
-
-        foods.append(food_entry)
-
-        print("Food logged: ")
-        print(food_entry)
-        print(f"food: {food}, calories: {calories}, protein: {protein}g, carbs: {carbs}g, fat: {fat}g")
+        log_food(foods)
     elif choice == "2":
-        total_calories = 0
-        total_protein = 0
-        total_carbs = 0
-        total_fat = 0
-
-        for food in foods:
-            total_calories += food["calories"]
-            total_protein += food["protein"]
-            total_carbs += food["carbs"]
-            total_fat += food["fat"]
-
-        print(f"Calories: {total_calories}")
-        print(f"Protein: {total_protein}g")
-        print(f"Carbs: {total_carbs}g")
-        print(f"Fat: {total_fat}g")
+        view_nutrition(foods)
     elif choice == "3":
-        print("Log workout selected")
-        exercise = input("Exercise name: ")
-        sets = int(input("Sets: "))
-        reps = int(input("Reps: "))
-        weight = float(input("Weight (kg): "))
-
-        workout_entry = {
-            "exercise": exercise,
-            "sets": sets,
-            "reps": reps,
-            "weight": weight
-        }
-
-        workouts.append(workout_entry)
-
-        print("Workout logged:")
-        print(f"{exercise}: {sets} sets x {reps} reps at {weight}kg")
+        log_workout(workouts)
     elif choice == "4":
-        if len(workouts) == 0:
-            print("No workouts logged.")
-        else:
-            for workout in workouts:
-                print(
-                    f"{workout['exercise']}: "
-                    f"{workout['sets']} sets x "
-                    f"{workout['reps']} reps at "
-                    f"{workout['weight']}kg"
-                )
+        view_workouts(workouts)
 
     elif choice == "5":
-        print("Log bodyweight selected")
-        weight = float(input("Bodyweight (kg): "))
-        bodyweights.append(weight)
-
-        print(f"Bodyweight logged: {weight}kg")
+        log_bodyweight(bodyweights)
     elif choice == "6":
-        if len(bodyweights) == 0:
-            print("No bodyweight entries logged.")
-        else:
-            starting_weight = bodyweights[0]
-            current_weight = bodyweights[-1]
-            change = current_weight - starting_weight
-
-            print(f"Starting weight: {starting_weight}kg")
-            print(f"Current weight: {current_weight}kg")
-            print(f"Change: {change}kg")        
+        view_progress(bodyweights)
     elif choice == "7":
         print("Goodbye!")
         break
