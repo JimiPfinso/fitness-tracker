@@ -1,4 +1,5 @@
 foods = []
+workouts = []
 
 while True:
     print("=== Fitness Tracker ===")
@@ -50,10 +51,37 @@ while True:
         print(f"Fat: {total_fat}g")
     elif choice == "3":
         print("Log workout selected")
+        exercise = input("Exercise name: ")
+        sets = int(input("Sets: "))
+        reps = int(input("Reps: "))
+        weight = float(input("Weight (kg): "))
+
+        workout_entry = {
+            "exercise": exercise,
+            "sets": sets,
+            "reps": reps,
+            "weight": weight
+        }
+
+        workouts.append(workout_entry)
+
+        print("Workout logged:")
+        print(f"{exercise}: {sets} sets x {reps} reps at {weight}kg")
     elif choice == "4":
-        print("View workouts selected")
+        if len(workouts) == 0:
+            print("No workouts logged.")
+        else:
+            for workout in workouts:
+                print(
+                    f"{workout['exercise']}: "
+                    f"{workout['sets']} sets x "
+                    f"{workout['reps']} reps at "
+                    f"{workout['weight']}kg"
+                )
+
     elif choice == "5":
         print("Log bodyweight selected")
+        
     elif choice == "6":
         print("View progress selected")
     elif choice == "7":
