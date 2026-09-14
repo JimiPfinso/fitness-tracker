@@ -91,7 +91,6 @@ def view_nutrition(foods):
     print(f"Fat: {totals['fat']}g")
 
 def log_workout(workouts):
-    print("Log workout selected")
     exercise = input("Exercise name: ")
     sets = get_int("Sets: ")
     reps = get_int("Reps: ")
@@ -160,15 +159,17 @@ def main():
 
         if choice == "1":
             log_food(foods)
+            save_data(foods, workouts, bodyweights)
         elif choice == "2":
             view_nutrition(foods)
         elif choice == "3":
             log_workout(workouts)
+            save_data(foods, workouts, bodyweights)
         elif choice == "4":
             view_workouts(workouts)
-
         elif choice == "5":
             log_bodyweight(bodyweights)
+            save_data(foods, workouts, bodyweights)
         elif choice == "6":
             view_progress(bodyweights)
         elif choice == "7":
