@@ -1,5 +1,6 @@
 foods = []
 workouts = []
+bodyweights = []
 
 while True:
     print("=== Fitness Tracker ===")
@@ -81,9 +82,21 @@ while True:
 
     elif choice == "5":
         print("Log bodyweight selected")
-        
+        weight = float(input("Bodyweight (kg): "))
+        bodyweights.append(weight)
+
+        print(f"Bodyweight logged: {weight}kg")
     elif choice == "6":
-        print("View progress selected")
+        if len(bodyweights) == 0:
+            print("No bodyweight entries logged.")
+        else:
+            starting_weight = bodyweights[0]
+            current_weight = bodyweights[-1]
+            change = current_weight - starting_weight
+
+            print(f"Starting weight: {starting_weight}kg")
+            print(f"Current weight: {current_weight}kg")
+            print(f"Change: {change}kg")        
     elif choice == "7":
         print("Goodbye!")
         break
