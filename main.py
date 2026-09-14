@@ -93,17 +93,29 @@ def log_bodyweight(bodyweights):
 
     print(f"Bodyweight logged: {weight}kg")
 
-def view_progress(bodyweights):
+def calculate_weight_change(bodyweights):
     if len(bodyweights) == 0:
+        return None
+
+    starting_weight = bodyweights[0]
+    current_weight = bodyweights[-1]
+    change = current_weight - starting_weight
+
+    return {
+        "starting_weight": starting_weight,
+        "current_weight": current_weight,
+        "change": change
+    }
+
+def view_progress(bodyweights):
+    progress = calculate_weight_change(bodyweights)
+
+    if progress is None:
         print("No bodyweight entries logged.")
     else:
-        starting_weight = bodyweights[0]
-        current_weight = bodyweights[-1]
-        change = current_weight - starting_weight
-
-        print(f"Starting weight: {starting_weight}kg")
-        print(f"Current weight: {current_weight}kg")
-        print(f"Change: {change}kg")        
+        print(f"Starting weight: {progress['starting_weight']}kg")
+        print(f"Current weight: {progress['current_weight']}kg")
+        print(f"Change: {progress['change']}kg")        
 
 def main():
     foods = []
