@@ -1,22 +1,4 @@
-import json
-
-def save_data(foods, workouts, bodyweights):
-    data = {
-        "foods": foods,
-        "workouts": workouts,
-        "bodyweights": bodyweights
-    }
-
-    with open("data.json", "w") as file:
-        json.dump(data, file)
-
-def load_data():
-    try:
-        with open("data.json", "r") as file:
-            data = json.load(file)
-        return data["foods"], data["workouts"], data["bodyweights"]
-    except FileNotFoundError:
-        return [], [], []
+from database import add_bodyweight, get_bodyweights, add_food, get_foods, add_workout, get_workouts
 
 def show_menu():
     print("=== Fitness Tracker ===")
@@ -42,25 +24,16 @@ def get_int(prompt):
         except ValueError:
             print("Please enter a valid whole number.")
 
-def log_food(foods):
+def log_food():
     food = input("Food name: ")
     calories = get_float("Calories: ")
     protein = get_float("Protein (g): ")
     carbs = get_float("Carbs (g): ")
     fat = get_float("Fat (g): ")
 
-    food_entry = {
-        "name": food,
-        "calories": calories,
-        "protein": protein,
-        "carbs": carbs,
-        "fat": fat
-    }
-
-    foods.append(food_entry)
+    add_food(food, calories, protein, carbs, fat)
 
     print("Food logged: ")
-    print(food_entry)
     print(f"food: {food}, calories: {calories}, protein: {protein}g, carbs: {carbs}g, fat: {fat}g")
 
 def calculate_nutrition(foods):
@@ -82,7 +55,8 @@ def calculate_nutrition(foods):
         "fat": total_fat
     }
 
-def view_nutrition(foods):
+def view_nutrition():
+    foods = get_foods()
     totals = calculate_nutrition(foods)
 
     print(f"Calories: {totals['calories']}")
@@ -90,25 +64,20 @@ def view_nutrition(foods):
     print(f"Carbs: {totals['carbs']}g")
     print(f"Fat: {totals['fat']}g")
 
-def log_workout(workouts):
+def log_workout():
     exercise = input("Exercise name: ")
     sets = get_int("Sets: ")
     reps = get_int("Reps: ")
     weight = get_float("Weight (kg): ")
 
-    workout_entry = {
-        "exercise": exercise,
-        "sets": sets,
-        "reps": reps,
-        "weight": weight
-    }
-
-    workouts.append(workout_entry)
+    add_workout(exercise, sets, reps, weight)
 
     print("Workout logged:")
     print(f"{exercise}: {sets} sets x {reps} reps at {weight}kg")
 
-def view_workouts(workouts):
+def view_workouts():
+    workouts = get_workouts()
+
     if len(workouts) == 0:
         print("No workouts logged.")
     else:
@@ -120,9 +89,9 @@ def view_workouts(workouts):
                 f"{workout['weight']}kg"
             )
 
-def log_bodyweight(bodyweights):
+def log_bodyweight():
     weight = get_float("Bodyweight (kg): ")
-    bodyweights.append(weight)
+    add_bodyweight(weight)
 
     print(f"Bodyweight logged: {weight}kg")
 
@@ -140,7 +109,8 @@ def calculate_weight_change(bodyweights):
         "change": change
     }
 
-def view_progress(bodyweights):
+def view_progress():
+    bodyweights = get_bodyweights()
     progress = calculate_weight_change(bodyweights)
 
     if progress is None:
@@ -148,33 +118,26 @@ def view_progress(bodyweights):
     else:
         print(f"Starting weight: {progress['starting_weight']}kg")
         print(f"Current weight: {progress['current_weight']}kg")
-        print(f"Change: {progress['change']}kg")        
+        print(f"Change: {progress['change']:.1f}kg")        
 
 def main():
-    foods, workouts, bodyweights = load_data()
-
     while True:
         show_menu()
         choice = input("Select an option: ")
 
         if choice == "1":
-            log_food(foods)
-            save_data(foods, workouts, bodyweights)
+            log_food()
         elif choice == "2":
-            view_nutrition(foods)
+            view_nutrition()
         elif choice == "3":
-            log_workout(workouts)
-            save_data(foods, workouts, bodyweights)
+            log_workout()
         elif choice == "4":
-            view_workouts(workouts)
+            view_workouts()
         elif choice == "5":
-            log_bodyweight(bodyweights)
-            save_data(foods, workouts, bodyweights)
+            log_bodyweight()
         elif choice == "6":
-            view_progress(bodyweights)
+            view_progress()
         elif choice == "7":
-            save_data(foods, workouts, bodyweights)
-            print("Data saved.")
             print("Goodbye!")
             break
         else:

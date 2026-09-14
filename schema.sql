@@ -1,0 +1,24 @@
+CREATE TABLE foods (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    calories REAL NOT NULL,
+    protein REAL NOT NULL,
+    carbs REAL NOT NULL,
+    fat REAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE workouts (
+    id SERIAL PRIMARY KEY,
+    exercise TEXT NOT NULL,
+    sets INTEGER NOT NULL,
+    reps INTEGER NOT NULL,
+    weight REAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE bodyweights (
+    id SERIAL PRIMARY KEY,
+    weight REAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
