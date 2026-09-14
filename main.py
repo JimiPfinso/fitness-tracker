@@ -29,7 +29,7 @@ def log_food(foods):
     print(food_entry)
     print(f"food: {food}, calories: {calories}, protein: {protein}g, carbs: {carbs}g, fat: {fat}g")
 
-def view_nutrition(foods):
+def calculate_nutrition(foods):
     total_calories = 0
     total_protein = 0
     total_carbs = 0
@@ -40,11 +40,21 @@ def view_nutrition(foods):
         total_protein += food["protein"]
         total_carbs += food["carbs"]
         total_fat += food["fat"]
+    
+    return {
+        "calories": total_calories,
+        "protein": total_protein,
+        "carbs": total_carbs,
+        "fat": total_fat
+    }
 
-    print(f"Calories: {total_calories}")
-    print(f"Protein: {total_protein}g")
-    print(f"Carbs: {total_carbs}g")
-    print(f"Fat: {total_fat}g")
+def view_nutrition(foods):
+    totals = calculate_nutrition(foods)
+
+    print(f"Calories: {totals['calories']}")
+    print(f"Protein: {totals['protein']}g")
+    print(f"Carbs: {totals['carbs']}g")
+    print(f"Fat: {totals['fat']}g")
 
 def log_workout(workouts):
     print("Log workout selected")
@@ -95,30 +105,33 @@ def view_progress(bodyweights):
         print(f"Current weight: {current_weight}kg")
         print(f"Change: {change}kg")        
 
-foods = []
-workouts = []
-bodyweights = []
+def main():
+    foods = []
+    workouts = []
+    bodyweights = []
 
-while True:
-    show_menu()
-    choice = input("Select an option: ")
+    while True:
+        show_menu()
+        choice = input("Select an option: ")
 
-    if choice == "1":
-        log_food(foods)
-    elif choice == "2":
-        view_nutrition(foods)
-    elif choice == "3":
-        log_workout(workouts)
-    elif choice == "4":
-        view_workouts(workouts)
+        if choice == "1":
+            log_food(foods)
+        elif choice == "2":
+            view_nutrition(foods)
+        elif choice == "3":
+            log_workout(workouts)
+        elif choice == "4":
+            view_workouts(workouts)
 
-    elif choice == "5":
-        log_bodyweight(bodyweights)
-    elif choice == "6":
-        view_progress(bodyweights)
-    elif choice == "7":
-        print("Goodbye!")
-        break
-    else:
-        print("Invalid option") 
+        elif choice == "5":
+            log_bodyweight(bodyweights)
+        elif choice == "6":
+            view_progress(bodyweights)
+        elif choice == "7":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option") 
 
+if __name__ == "__main__":
+    main()
