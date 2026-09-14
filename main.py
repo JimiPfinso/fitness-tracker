@@ -1,3 +1,23 @@
+import json
+
+def save_data(foods, workouts, bodyweights):
+    data = {
+        "foods": foods,
+        "workouts": workouts,
+        "bodyweights": bodyweights
+    }
+
+    with open("data.json", "w") as file:
+        json.dump(data, file)
+
+def load_data():
+    try:
+        with open("data.json", "r") as file:
+            data = json.load(file)
+        return data["foods"], data["workouts"], data["bodyweights"]
+    except FileNotFoundError:
+        return [], [], []
+
 def show_menu():
     print("=== Fitness Tracker ===")
     print("1. Log food")
@@ -132,9 +152,7 @@ def view_progress(bodyweights):
         print(f"Change: {progress['change']}kg")        
 
 def main():
-    foods = []
-    workouts = []
-    bodyweights = []
+    foods, workouts, bodyweights = load_data()
 
     while True:
         show_menu()
@@ -154,6 +172,8 @@ def main():
         elif choice == "6":
             view_progress(bodyweights)
         elif choice == "7":
+            save_data(foods, workouts, bodyweights)
+            print("Data saved.")
             print("Goodbye!")
             break
         else:
