@@ -1,4 +1,9 @@
-from main import calculate_nutrition, calculate_weight_change
+from main import (
+    calculate_nutrition, 
+    calculate_weight_change,
+    get_float,
+    get_int
+)
 
 def test_calculate_nutrition():
     foods = [
@@ -42,3 +47,13 @@ def test_calculate_weight_change():
 def test_calculate_weight_change_empty():
     result = calculate_weight_change([])
     assert result is None
+
+def test_get_float(monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda prompt: "12.5")
+    result = get_float("Enter number: ")
+    assert result == 12.5
+
+def test_get_int(monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda prompt: "3")
+    result = get_int("Enter whole number: ")
+    assert result == 3

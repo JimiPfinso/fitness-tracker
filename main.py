@@ -8,12 +8,26 @@ def show_menu():
     print("6. View progress")
     print("7. Exit")
 
+def get_float(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Please enter a valid number.")
+
+def get_int(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Please enter a valid whole number.")
+
 def log_food(foods):
     food = input("Food name: ")
-    calories = float(input("Calories: "))
-    protein = float(input("Protein (g): "))
-    carbs = float(input("Carbs (g): "))
-    fat = float(input("Fat (g): "))
+    calories = get_float("Calories: ")
+    protein = get_float("Protein (g): ")
+    carbs = get_float("Carbs (g): ")
+    fat = get_float("Fat (g): ")
 
     food_entry = {
         "name": food,
@@ -59,9 +73,9 @@ def view_nutrition(foods):
 def log_workout(workouts):
     print("Log workout selected")
     exercise = input("Exercise name: ")
-    sets = int(input("Sets: "))
-    reps = int(input("Reps: "))
-    weight = float(input("Weight (kg): "))
+    sets = get_int("Sets: ")
+    reps = get_int("Reps: ")
+    weight = get_float("Weight (kg): ")
 
     workout_entry = {
         "exercise": exercise,
@@ -88,7 +102,7 @@ def view_workouts(workouts):
             )
 
 def log_bodyweight(bodyweights):
-    weight = float(input("Bodyweight (kg): "))
+    weight = get_float("Bodyweight (kg): ")
     bodyweights.append(weight)
 
     print(f"Bodyweight logged: {weight}kg")
