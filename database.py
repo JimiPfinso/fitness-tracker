@@ -22,6 +22,25 @@ def get_bodyweights():
             rows = cur.fetchall()
     return [row[0] for row in rows]
 
+def get_bodyweight_history():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT weight, created_at
+                FROM bodyweights
+                ORDER BY created_at, id
+                """
+            )
+            rows = cur.fetchall()
+    return [
+        {
+            "weight": row[0],
+            "date": row[1]
+        }
+        for row in rows
+    ]
+
 def add_food(name, calories, protein, carbs, fat):
     with get_connection() as conn:
         with conn.cursor() as cur:

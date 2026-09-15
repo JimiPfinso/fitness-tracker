@@ -2,6 +2,7 @@ from main import (
     calculate_nutrition, 
     calculate_weight_change,
     calculate_workout_volume,
+    calculate_average_weight,
     get_float,
     get_int
 )
@@ -70,3 +71,11 @@ def test_calculate_workout_volume():
     result = calculate_workout_volume(workout)
 
     assert result == 2400
+
+def test_calculate_average_weight():
+    result = calculate_average_weight([72.5, 73.2, 73.9])
+    assert result == 73.2
+
+def test_calculate_average_weight_empty():
+    result = calculate_average_weight([])
+    assert result is None

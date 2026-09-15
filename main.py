@@ -1,5 +1,5 @@
 from database import (
-    add_bodyweight, get_bodyweights, 
+    add_bodyweight, get_bodyweights, get_bodyweight_history, 
     add_food, get_foods, get_todays_foods,
     add_workout, get_workouts,
 )
@@ -12,7 +12,8 @@ def show_menu():
     print("4. View workouts")
     print("5. Log bodyweight")
     print("6. View progress")
-    print("7. Exit")
+    print("7. View bodyweight history")
+    print("8. Exit")
 
 def get_float(prompt):
     while True:
@@ -119,16 +120,39 @@ def calculate_weight_change(bodyweights):
         "change": change
     }
 
+def calculate_average_weight(bodyweights):
+    if len(bodyweights) == 0:
+        return None
+
+    total = 0
+
+    for weight in bodyweights:
+        total += weight
+
+    return total / len(bodyweights)
+
 def view_progress():
     bodyweights = get_bodyweights()
     progress = calculate_weight_change(bodyweights)
+    average = calculate_average_weight(bodyweights)
 
     if progress is None:
         print("No bodyweight entries logged.")
     else:
         print(f"Starting weight: {progress['starting_weight']}kg")
         print(f"Current weight: {progress['current_weight']}kg")
-        print(f"Change: {progress['change']:.1f}kg")        
+        print(f"Change: {progress['change']:.1f}kg")      
+        print(f"Average weight: {average:.1f}kg")     
+
+def view_bodyweight_history():
+    history = get_bodyweight_history()
+
+    if len(history) == 0:
+        print("No bodyweight entries logged.")
+    else:
+        for entry in history:
+            date = entry["date"].strftime("%d %b %Y")
+            print(f"{date}: {entry['weight']}kg")
 
 def main():
     while True:
@@ -148,6 +172,8 @@ def main():
         elif choice == "6":
             view_progress()
         elif choice == "7":
+            view_bodyweight_history()
+        elif choice == "8":
             print("Goodbye!")
             break
         else:
