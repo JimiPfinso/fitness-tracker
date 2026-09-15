@@ -1,2 +1,5 @@
 psycopg
 pytest
+fastapi
+uvicorn
+httpx
