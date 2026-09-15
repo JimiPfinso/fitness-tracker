@@ -1,4 +1,8 @@
-from database import add_bodyweight, get_bodyweights, add_food, get_foods, add_workout, get_workouts
+from database import (
+    add_bodyweight, get_bodyweights, 
+    add_food, get_foods, get_todays_foods,
+    add_workout, get_workouts,
+)
 
 def show_menu():
     print("=== Fitness Tracker ===")
@@ -56,7 +60,7 @@ def calculate_nutrition(foods):
     }
 
 def view_nutrition():
-    foods = get_foods()
+    foods = get_todays_foods()
     totals = calculate_nutrition(foods)
 
     print(f"Calories: {totals['calories']}")
@@ -75,6 +79,9 @@ def log_workout():
     print("Workout logged:")
     print(f"{exercise}: {sets} sets x {reps} reps at {weight}kg")
 
+def calculate_workout_volume(workout):
+    return workout["sets"] * workout["reps"] * workout["weight"]
+
 def view_workouts():
     workouts = get_workouts()
 
@@ -82,11 +89,14 @@ def view_workouts():
         print("No workouts logged.")
     else:
         for workout in workouts:
+            volume = calculate_workout_volume(workout)
+
             print(
                 f"{workout['exercise']}: "
                 f"{workout['sets']} sets x "
                 f"{workout['reps']} reps at "
-                f"{workout['weight']}kg"
+                f"{workout['weight']}kg | "
+                f"Volume: {volume}kg"
             )
 
 def log_bodyweight():

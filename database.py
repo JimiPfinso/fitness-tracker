@@ -86,3 +86,26 @@ def get_workouts():
         }
         for row in rows
     ]
+
+def get_todays_foods():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT name, calories, protein, carbs, fat
+                FROM foods
+                WHERE created_at::date = CURRENT_DATE
+                ORDER BY created_at, id
+                """
+            )
+            rows = cur.fetchall()
+    return [
+        {
+            "name": row[0],
+            "calories":row[1],
+            "protein":row[2],
+            "carbs":row[3],
+            "fat":row[4]
+        }
+        for row in rows
+    ]

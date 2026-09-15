@@ -1,6 +1,7 @@
 from main import (
     calculate_nutrition, 
     calculate_weight_change,
+    calculate_workout_volume,
     get_float,
     get_int
 )
@@ -57,3 +58,15 @@ def test_get_int(monkeypatch):
     monkeypatch.setattr("builtins.input", lambda prompt: "3")
     result = get_int("Enter whole number: ")
     assert result == 3
+
+def test_calculate_workout_volume():
+    workout = {
+        "exercise": "Bench Press",
+        "sets": 3,
+        "reps": 8,
+        "weight": 100
+    }
+
+    result = calculate_workout_volume(workout)
+
+    assert result == 2400
