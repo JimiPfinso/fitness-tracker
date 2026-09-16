@@ -29,6 +29,12 @@ function App() {
   const [sets, setSets] = useState("");
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
+  const [foodName, setFoodName] = useState("");
+  const [calories, setCalories] = useState("");
+  const [protein, setProtein] = useState("");
+  const [carbs, setCarbs] = useState("");
+  const [fat, setFat] = useState("");
+  const [bodyweightInput, setBodyweightInput] = useState("");
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/analytics/nutrition")
@@ -47,20 +53,24 @@ function App() {
   function handleWorkoutSubmit(event: React.FormEvent) {
   event.preventDefault();
 
+  const newWorkout = {
+    exercise: exercise,
+    sets: Number(sets),
+    reps: Number(reps),
+    weight: Number(weight),
+  };
+
   fetch("http://127.0.0.1:8000/workouts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      exercise: exercise,
-      sets: Number(sets),
-      reps: Number(reps),
-      weight: Number(weight),
-    }),
+    body: JSON.stringify(newWorkout),
   })
     .then((response) => response.json())
     .then(() => {
+      setWorkouts([...workouts, newWorkout]);
+
       setExercise("");
       setSets("");
       setReps("");
@@ -68,6 +78,83 @@ function App() {
     });
 }
 
+function handleFoodSubmit(event: React.FormEvent) {
+  event.preventDefault();
+
+  const newFood = {
+    name: foodName,
+    calories: Number(calories),
+    protein: Number(protein),
+    carbs: Number(carbs),
+    fat: Number(fat),
+  };
+
+  fetch("http://127.0.0.1:8000/foods", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newFood),
+  })
+    .then((response) => response.json())
+    .then(() => {
+      return fetch("http://127.0.0.1:8000/analytics/nutrition");
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setNutrition(data);
+
+      setFoodName("");
+      setCalories("");
+      setProtein("");
+      setCarbs("");
+      setFat("");
+    });
+}
+
+function handleBodyweightSubmit(event: React.FormEvent) {
+
+  event.preventDefault();
+
+  const newBodyweight = {
+
+    weight: Number(bodyweightInput),
+
+  };
+
+  fetch("http://127.0.0.1:8000/bodyweights", {
+
+    method: "POST",
+
+    headers: {
+
+      "Content-Type": "application/json",
+
+    },
+
+    body: JSON.stringify(newBodyweight),
+
+  })
+
+    .then((response) => response.json())
+
+    .then(() => {
+
+      return fetch("http://127.0.0.1:8000/analytics/bodyweight");
+
+    })
+
+    .then((response) => response.json())
+
+    .then((data) => {
+
+      setBodyweight(data);
+
+      setBodyweightInput("");
+
+    });
+
+}
   return (
     <div>
       <h1>Fitness Tracker</h1>
@@ -85,6 +172,47 @@ function App() {
         <p>Loading...</p>
       )}
 
+      <h2>Log Food</h2>
+
+<form onSubmit={handleFoodSubmit}>
+  <input
+    type="text"
+    placeholder="Food name"
+    value={foodName}
+    onChange={(event) => setFoodName(event.target.value)}
+  />
+
+  <input
+    type="number"
+    placeholder="Calories"
+    value={calories}
+    onChange={(event) => setCalories(event.target.value)}
+  />
+
+  <input
+    type="number"
+    placeholder="Protein (g)"
+    value={protein}
+    onChange={(event) => setProtein(event.target.value)}
+  />
+
+  <input
+    type="number"
+    placeholder="Carbs (g)"
+    value={carbs}
+    onChange={(event) => setCarbs(event.target.value)}
+  />
+
+  <input
+    type="number"
+    placeholder="Fat (g)"
+    value={fat}
+    onChange={(event) => setFat(event.target.value)}
+  />
+
+  <button type="submit">Log Food</button>
+</form>
+
       <h2>Bodyweight Progress</h2>
 
       {bodyweight ? (
@@ -97,6 +225,20 @@ function App() {
       ) : (
         <p>Loading...</p>
       )}
+
+      <h2>Log Bodyweight</h2>
+
+<form onSubmit={handleBodyweightSubmit}>
+  <input
+    type="number"
+    step="0.1"
+    placeholder="Bodyweight (kg)"
+    value={bodyweightInput}
+    onChange={(event) => setBodyweightInput(event.target.value)}
+  />
+
+  <button type="submit">Log Bodyweight</button>
+</form>
 
       <h2>Log Workout</h2>
 
