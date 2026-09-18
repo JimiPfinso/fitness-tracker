@@ -85,23 +85,36 @@ def add_workout(exercise, sets, reps, weight):
                 (exercise, sets, reps, weight)
             )
 
+def delete_workout(workout_id):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "DELETE FROM workouts WHERE id = %s",
+                (workout_id,)
+            )
+            deleted = cur.rowcount
+
+    return deleted > 0
+
 def get_workouts():
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT exercise, sets, reps, weight
+                SELECT id, exercise, sets, reps, weight
                 FROM workouts
                 ORDER BY created_at
                 """
             )
             rows = cur.fetchall()
+
     return [
         {
-            "exercise": row[0],
-            "sets": row[1],
-            "reps": row[2],
-            "weight": row[3]
+            "id": row[0],
+            "exercise": row[1],
+            "sets": row[2],
+            "reps": row[3],
+            "weight": row[4]
         }
         for row in rows
     ]
@@ -111,20 +124,33 @@ def get_todays_foods():
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT name, calories, protein, carbs, fat
+                SELECT id, name, calories, protein, carbs, fat
                 FROM foods
                 WHERE created_at::date = CURRENT_DATE
                 ORDER BY created_at, id
                 """
             )
             rows = cur.fetchall()
+
     return [
         {
-            "name": row[0],
-            "calories":row[1],
-            "protein":row[2],
-            "carbs":row[3],
-            "fat":row[4]
+            "id": row[0],
+            "name": row[1],
+            "calories": row[2],
+            "protein": row[3],
+            "carbs": row[4],
+            "fat": row[5]
         }
         for row in rows
     ]
+
+def delete_food(food_id):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "DELETE FROM foods WHERE id = %s",
+                (food_id,)
+            )
+            deleted = cur.rowcount
+
+    return deleted > 0

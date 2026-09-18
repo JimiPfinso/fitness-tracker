@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from database import (
-    get_workouts, add_workout,
-    get_todays_foods, add_food,
+    get_workouts, add_workout, delete_workout,
+    get_todays_foods, add_food, delete_food,
     get_bodyweight_history, add_bodyweight,
     get_bodyweights
 )
@@ -55,6 +55,15 @@ def create_workout(workout: Workout):
     )
     return {"message": "Workout created"}
 
+@app.delete("/workouts/{workout_id}")
+def remove_workout(workout_id: int):
+    deleted = delete_workout(workout_id)
+
+    if not deleted:
+        return {"message": "Workout not found"}
+
+    return {"message": "Workout deleted"}
+
 @app.get("/foods")
 def read_foods():
     return get_todays_foods()
@@ -69,6 +78,15 @@ def create_food(food: Food):
         food.fat
     )
     return {"message": "Food created"}
+
+@app.delete("/foods/{food_id}")
+def remove_food(food_id: int):
+    deleted = delete_food(food_id)
+
+    if not deleted:
+        return {"message": "Food not found"}
+
+    return {"message": "Food deleted"}
 
 @app.get("/bodyweights")
 def read_bodyweights():
