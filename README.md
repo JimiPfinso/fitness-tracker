@@ -1,48 +1,98 @@
 # Fitness Tracker
 
-A Python command-line fitness tracker for logging nutrition, workouts, and bodyweight progress using PostgreSQL for persistent data storage.
+A full-stack fitness tracker for logging nutrition, workouts, and bodyweight while monitoring fitness progress and calorie/macronutrient targets.
+
+## Live demo
+https://fitness-tracker-4rat.onrender.com
 
 ## Features
-- Log food and track calories, protein, carbs, and fat.
-- View total nutrition details.
-- Log workouts with sets, reps, and weight.
-- View workout history and calculate training volume.
-- Log and store bodyweight measurements.
-- View dated bodyweight history.
-- Track starting weight, current weight, overall weight change, and average weight.
-- Input validation for numeric values.
-- Persist fitness data using PostgreSQL.
-- Automated tests with pytest.
+- Log and delete food entries.
+- Track daily calories and macronutrients.
+- Log workouts including exercise, sets, reps and weight.
+- View workout history.
+- Record and analyse bodyweight.
+- Calculate TDEE and calorie targets.
+- Generate protein, carbohydrate and fat targets.
+- Nutrition and training resources.
+- Responsive React dashboard.
 
-## Technologies
+## Tech Stack
+### Frontend
+- React
+- TypeScript
+- Vite
+- CSS
+
+### Backend
 - Python
+- FastAPI
+- Uvicorn
+
+### Database
 - PostgreSQL
-- psycopg3
+
+### Testing
 - pytest
-- Git
-- GitHub
+- FastAPI TestClient
 
-## Running the project
-Run the application with:
+### Deployment
+- Render Static Site - Frontend
+- Render Web Service - backend
+- Render PostgreSQL - database
 
-```bash
-python3 main.py
+## Architecture
+```text
+React / TypeScript Frontend
+        |
+        | REST API
+        v
+Python / FastAPI Backend
+        |
+        | SQL
+        v
+PostgreSQL Database
 ```
 
-Create the database tables:
+## Running locally
+### Backend
+
+Install dependencies:
+
 ```bash
-psql fitness_tracker -f schema.sql
+pip install -r requirements.txt
 ```
 
-Run the tests with:
+Start the API:
+```bash
+python3 -m uvicorn api:app --reload
+```
+
+The API runs at http://127.0.0.1:8000.
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend runs at http://localhost:5173.
+
+## Testing
+Run the backend and API test suite:
 ```bash
 python3 -m pytest
 ```
 
-## Current Status
-Version 3 includes PostgreSQL persistence and fitness analytics.
-Planned future development:
-- Python backend REST API
-- React and typescript web frontend
-- User authentication
-- Deployment
+## API
+The FastAPI backend provides endpoints for:
+- Foods
+- Workouts
+- Bodyweight
+- Nutrition analytics
+- Bodyweight analytics
+
+Interactive API documentation is available through FastAPI’s /docs endpoint when the backend is running.
+
+## Author
+Jimi Pfinso Wangtob
