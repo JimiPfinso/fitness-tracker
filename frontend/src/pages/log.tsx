@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../api";
 
 type Food = {
   id: number;
@@ -31,7 +32,7 @@ function Log() {
   const [weight, setWeight] = useState("");
 
   function loadFoods() {
-    fetch("http://127.0.0.1:8000/foods")
+    fetch(`${API_URL}/foods`)
       .then((response) => response.json())
       .then((data) => {
         setFoods(data);
@@ -54,7 +55,7 @@ function Log() {
       fat: Number(fat),
     };
 
-    fetch("http://127.0.0.1:8000/foods", {
+    fetch(`${API_URL}/foods`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +75,7 @@ function Log() {
   }
 
   function handleDeleteFood(foodId: number) {
-    fetch(`http://127.0.0.1:8000/foods/${foodId}`, {
+    fetch(`${API_URL}/foods/${foodId}`, {
       method: "DELETE",
     }).then((response) => {
       if (response.ok) {
@@ -92,7 +93,7 @@ function Log() {
       weight: Number(bodyweightInput),
     };
 
-    fetch("http://127.0.0.1:8000/bodyweights", {
+    fetch(`${API_URL}/bodyweights`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -115,7 +116,7 @@ function Log() {
       weight: Number(weight),
     };
 
-    fetch("http://127.0.0.1:8000/workouts", {
+    fetch(`${API_URL}/workouts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

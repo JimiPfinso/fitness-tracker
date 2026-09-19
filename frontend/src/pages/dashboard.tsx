@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../api";
 
 type Nutrition = {
   calories: number;
@@ -22,14 +23,14 @@ function Dashboard() {
   const [bodyweightLoaded, setBodyweightLoaded] = useState(false);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/analytics/nutrition")
+    fetch(`${API_URL}/analytics/nutrition`)
       .then((response) => response.json())
       .then((data) => {
         setNutrition(data);
         setNutritionLoaded(true);
       });
 
-    fetch("http://127.0.0.1:8000/analytics/bodyweight")
+    fetch(`${API_URL}/analytics/bodyweight`)
       .then((response) => response.json())
       .then((data) => {
         if ("message" in data) {

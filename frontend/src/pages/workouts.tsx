@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../api";
 
 type Workout = {
   id: number;
@@ -13,7 +14,7 @@ function Workouts() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/workouts")
+    fetch(`${API_URL}/workouts`)
       .then((response) => response.json())
       .then((data) => {
         setWorkouts(data);
@@ -22,7 +23,7 @@ function Workouts() {
   }, []);
 
   function handleDelete(workoutId: number) {
-    fetch(`http://127.0.0.1:8000/workouts/${workoutId}`, {
+    fetch(`${API_URL}/workouts/${workoutId}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

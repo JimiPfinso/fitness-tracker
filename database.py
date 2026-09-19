@@ -1,6 +1,13 @@
+import os
 import psycopg
 
+
 def get_connection():
+    database_url = os.getenv("DATABASE_URL")
+
+    if database_url:
+        return psycopg.connect(database_url)
+
     return psycopg.connect(
         dbname="fitness_tracker"
     )
